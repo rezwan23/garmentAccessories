@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateLcsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('lcs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('seller_bank');
+            $table->string('seller_bank_branch');
+            $table->string('buyer_bank');
+            $table->string('buyer_bank_branch');
+            $table->string('lc_number');
+            $table->string('payment_terms');
+            $table->date('party_date');
+            $table->date('bank_date');
+            $table->date('accept_date');
+            $table->string('adjust_remarks');
+            $table->double('total_value', 12, 4);
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('lcs');
+    }
+}
